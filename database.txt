@@ -1,0 +1,63 @@
+-- Criação do banco de dados
+CREATE DATABASE IF NOT EXISTS school;
+USE school;
+
+-- Tabela Teacher
+CREATE TABLE Teacher (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    birthday DATE NOT NULL,
+    cpf VARCHAR(14) NOT NULL UNIQUE, -- CPF será armazenado no formato de 14 caracteres (xxx.xxx.xxx-xx)
+    department VARCHAR(255) NOT NULL
+);
+
+-- Tabela Course
+CREATE TABLE Course (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    workload INT NOT NULL, -- Carga horária do curso
+    id_teacher INT, -- Relacionamento com Teacher
+    FOREIGN KEY (id_teacher) REFERENCES Teacher(id) -- Chave estrangeira apontando para a tabela Teacher
+);
+
+-- Tabela Student
+CREATE TABLE Student (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    birthday DATE NOT NULL,
+    cpf VARCHAR(14) NOT NULL UNIQUE, -- CPF será armazenado no formato de 14 caracteres (xxx.xxx.xxx-xx)
+    id_course INT, -- Relacionamento com Course
+    FOREIGN KEY (id_course) REFERENCES Course(id) -- Chave estrangeira apontando para a tabela Course
+);
+
+-- Inserir alguns dados de exemplo (opcional)
+-- Inserindo professores
+INSERT INTO Teacher (name, birthday, cpf, department) VALUES
+('Carlos Silva', '1980-04-15', '123.456.789-00', 'Matemática'),
+('Ana Souza', '1975-11-23', '987.654.321-00', 'Física'),
+('Alice Silva', '1980-04-15', '123.455.789-00', 'Matemática'),
+('Carlos Oliveira', '1975-11-22', '987.654.221-00', 'Física'),
+('Mariana Santos', '1985-08-30', '111.222.333-44', 'Química');
+
+
+-- Inserir cursos
+INSERT INTO Course (name, workload, id_teacher) VALUES
+('Matemática Básica', 60, 1),
+('Física Experimental', 80, 2),
+('Cálculo I', 60, 3), 
+('Física Geral', 45, 4),
+('Química Orgânica', 75, 5);
+
+-- Inserir alunos
+INSERT INTO Student (name, birthday, cpf, id_course) VALUES
+('João Pereira', '2000-06-10', '111.222.333-44', 1),
+('Maria Oliveira', '2001-08-25', '555.666.777-88', 2),
+('Lucas Pereira', '2000-01-15', '222.333.444-55', 3),
+('Ana Costa', '1999-12-05', '333.444.555-66', 4),
+('Pedro Lima', '2001-03-22', '444.555.666-77', 5);
+
+
+-- Comandos de SELECT para verificar os dados inseridos (opcional)
+SELECT * FROM Teacher;
+SELECT * FROM Course;
+SELECT * FROM Student;
